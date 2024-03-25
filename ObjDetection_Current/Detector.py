@@ -16,7 +16,7 @@ global_servo_positionY = 90
 global_position_tolerance = 0
 
 cv.namedWindow('Tolerance Selector')
-TolWin = np.zeros((300,512,3), np.uint8)
+TolWin = np.zeros((50,512,3), np.uint8)
 
 cap = cv.VideoCapture(0)
 
@@ -53,9 +53,9 @@ def DetectObj(frame):
                 print("Aligned on X axis")
             else:
                 if int(rectx) > center_x:
-                    global_servo_positionX += 1
-                elif int(rectx) < center_x:
                     global_servo_positionX -= 1
+                elif int(rectx) < center_x:
+                    global_servo_positionX += 1
             
             if diffy <= global_position_tolerance:
                 print("Aligned on the Y axis")
