@@ -6,8 +6,12 @@ from Get_Centers import getCenter_rectangle,GetCenter_frame
 import pyfirmata as pym
 import numpy as np
 
+ServoX_pin = 8
+#ServoY_pin = 9
+
 board = pym.ArduinoMega('COM3')
-Servo = board.get_pin('d:8:s')
+Servo = board.get_pin(f'd:{ServoX_pin}:s')
+#Servo = board.get_pin(f'd:{ServoY_pin}:s')
 board.digital[13].write(1)
 print("Arduino active..")
 
