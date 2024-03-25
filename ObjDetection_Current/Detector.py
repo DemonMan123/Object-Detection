@@ -1,4 +1,4 @@
-# Facial detection program, written by Demin (Unfinished)
+# Facial detection turret program, written by Demin (Unfinished)
 import cv2 as cv
 import cvlib as cvl
 import threading
