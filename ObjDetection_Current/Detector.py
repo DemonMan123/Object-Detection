@@ -6,12 +6,12 @@ from Get_Centers import getCenter_rectangle,GetCenter_frame
 import pyfirmata as pym
 import numpy as np
 
-ServoX_pin = 8
-#ServoY_pin = 9
+ServoX_pin = 8 # Servo X pin on board
+ServoY_pin = 9 # Servo Y pin on board
 
 board = pym.ArduinoMega('COM3')
-Servo = board.get_pin(f'd:{ServoX_pin}:s')
-#Servo = board.get_pin(f'd:{ServoY_pin}:s')
+Servo = board.get_pin(f'd:{ServoX_pin}:s') # Sets up the servo pin X
+Servo = board.get_pin(f'd:{ServoY_pin}:s') # Sets up the servo pin Y
 board.digital[13].write(1)
 print("Arduino active..")
 
@@ -30,28 +30,29 @@ if not cap.isOpened():
 def GetToleranceLimit(Tolerance):
     print(Tolerance)
 
-def moveServoX(pos):
-    print(f"Ran moveServoX {pos}")
-    Servo.write(pos)
+def moveServoX(posX):
+    print(f"Ran moveServoX {posX}")
+    Servo.write(posX)
 
-def moveServoY(pos):
-    print(f"Ran moveServoY {pos}")
+def moveServoY(posY):
+    print(f"Ran moveServoY {posY}")
+    Servo.write(posY)
 
 def DetectObj(frame):
     global global_servo_positionX
     global global_servo_positionY
-    F_height, F_width = frame.shape[:2]
-    center_y,center_x = GetCenter_frame(F_height,F_width)
+    F_height, F_width = frame.shape[:2] # Gets the width/height of the frame
+    center_y,center_x = GetCenter_frame(F_height,F_width) # Gets the center of the frame
 
     faces, conf = cvl.detect_face(frame)
     if faces:
-        for idx, f in enumerate(faces):
-            (startX, startY) = f[0], f[1]
-            (endX, endY) = f[2], f[3]
-            rectx,recty = getCenter_rectangle(startX,startY,endX,endY)
+        for idx, f in enumerate(faces): # Creates an array for faces (f), IDX is ignored.
+            (startX, startY) = f[0], f[1] # Starting points for X/Y
+            (endX, endY) = f[2], f[3] # Ending points for X/Y
+            rectx,recty = getCenter_rectangle(startX,startY,endX,endY) # Gets the center of a rectangle given a certain width/height
             rectcenter = int(rectx),int(recty)
-            diffx = abs(int(rectx) - center_x)
-            diffy = abs(int(recty) - center_y)
+            diffx = abs(int(rectx) - center_x) # Gets the absolute (Aka no negative) value of X
+            diffy = abs(int(recty) - center_y) # Gets the absolute value of Y
             
             if diffx <= global_position_tolerance:
                 print("Aligned on X axis")
